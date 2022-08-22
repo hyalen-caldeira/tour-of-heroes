@@ -12,7 +12,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HeroDetailComponent } from './hero-detail/hero-detail.component';
-import { HeroesComponent } from './heroes/heroes.component';
+import { HeroListComponent } from './hero-list/hero-list.component';
 import { MessagesComponent } from './messages/messages.component';
 import { HeroSearchComponent } from './hero-search/hero-search.component';
 import { NameEditorComponent } from './name-editor/name-editor.component';
@@ -21,7 +21,7 @@ import { ProfileEditorComponent } from './profile-editor/profile-editor.componen
 @NgModule({
     declarations: [
         AppComponent,
-        HeroesComponent,
+        HeroListComponent,
         HeroDetailComponent,
         MessagesComponent,
         DashboardComponent,
