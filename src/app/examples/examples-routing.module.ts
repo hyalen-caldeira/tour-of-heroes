@@ -4,6 +4,7 @@ import { HeroListComponent } from './heroes/hero-list/hero-list.component';
 import { DashboardComponent } from './heroes/dashboard/dashboard.component';
 import { HeroDetailComponent } from './heroes/hero-detail/hero-detail.component';
 import { NameEditorComponent } from './forms/name-editor/name-editor.component';
+import { ProfileEditorComponent } from './forms/profile-editor/profile-editor.component';
 
 const routes: Routes = [
     { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -11,6 +12,7 @@ const routes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
     { path: 'detail/:id', component: HeroDetailComponent },
     { path: 'name-editor', component: NameEditorComponent },
+    { path: 'profile-editor', component: ProfileEditorComponent }
 ];
 
 @NgModule({
