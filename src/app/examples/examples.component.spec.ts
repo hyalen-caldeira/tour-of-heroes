@@ -1,7 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { ExamplesComponent } from './examples.component';
 
-describe('AppComponent', () => {
+describe('ExamplesComponent', () => {
+  let fixture : any;
+  let app : any;
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [
@@ -10,22 +13,23 @@ describe('AppComponent', () => {
     }).compileComponents();
   });
 
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ExamplesComponent);
+    app = fixture.componentInstance;
+  });
+
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(ExamplesComponent);
-    const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'tour-of-heroes'`, () => {
-    const fixture = TestBed.createComponent(ExamplesComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('tour-of-heroes');
+  it(`should have a title 'Tour of Heroes'`, () => {
+    expect(app.title).toEqual('Tour of Heroes');
   });
 
   it('should render title', () => {
-    const fixture = TestBed.createComponent(ExamplesComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('tour-of-heroes app is running!');
+
+    expect(compiled.querySelector('h1')?.textContent).toContain('Tour of Heroes');
   });
 });
