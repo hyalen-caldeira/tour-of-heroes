@@ -1,21 +1,21 @@
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ExamplesComponent } from './examples.component';
 
 describe('ExamplesComponent', () => {
-  let fixture : any;
-  let app : any;
+  let app : ExamplesComponent;
+  let fixture : ComponentFixture<ExamplesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [
         ExamplesComponent
       ],
-    }).compileComponents();
-  });
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ExamplesComponent);
-    app = fixture.componentInstance;
+    })
+    .compileComponents()
+    .then(() => {
+      fixture = TestBed.createComponent(ExamplesComponent);
+      app = fixture.componentInstance;
+    });
   });
 
   it('should create the app', () => {

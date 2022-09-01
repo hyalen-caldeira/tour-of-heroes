@@ -5,7 +5,6 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './service/in-memory-data.service';
-import { ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HeroDetailComponent } from './hero-detail/hero-detail.component';
 import { HeroListComponent } from './hero-list/hero-list.component';
@@ -26,7 +25,6 @@ import { ExamplesRoutingModule } from '../examples-routing.module';
         FormsModule,
         HttpClientModule,
         HttpClientModule,
-        ReactiveFormsModule,
         ExamplesRoutingModule,
 
         // The HttpClientInMemoryWebApiModule module intercepts HTTP requests

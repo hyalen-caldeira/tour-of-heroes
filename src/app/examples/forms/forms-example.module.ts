@@ -8,8 +8,8 @@ import { ProfileEditorComponent } from './profile-editor/profile-editor.componen
 @NgModule({
     declarations: [ NameEditorComponent, ProfileEditorComponent ],
     imports: [
-        BrowserModule,
-        ReactiveFormsModule
+        BrowserModule
+        , ReactiveFormsModule
     ],
     exports: [ ]
 })
