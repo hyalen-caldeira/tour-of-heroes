@@ -1,7 +1,10 @@
-import { AfterContentInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterContentInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { NotificationService } from '../../shared/service/notification.service';
+import { NotificationStackComponent } from '../notification-stack/notification-stack.component';
+import { CLICK_EVENTS, NAMES, TYPES } from '../../shared/constants/notification-constants';
 
 @Component({
     selector: 'app-profile-editor',
@@ -9,6 +12,9 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./profile-editor.component.css']
 })
 export class ProfileEditorComponent implements OnInit, AfterContentInit, OnDestroy {
+    @ViewChild('topStack') 
+    topStack!: NotificationStackComponent;
+
     // Subscriptions
     private dataSubscriptions: Subscription = new Subscription();
     private formControlSubscriptions: Subscription = new Subscription();
@@ -16,7 +22,11 @@ export class ProfileEditorComponent implements OnInit, AfterContentInit, OnDestr
     private notificationSubscriptions: Subscription = new Subscription();
     public formGroup!: FormGroup;
     
-    constructor(private formBuilder: FormBuilder) { }
+    constructor(
+        private formBuilder: FormBuilder,
+        private notificationService: NotificationService) {
+
+        }
 
     ngOnInit(): void {
         // TODO
@@ -27,6 +37,12 @@ export class ProfileEditorComponent implements OnInit, AfterContentInit, OnDestr
         // this.addFormControlSubscriptions();
         // this.addDataSubscriptions();
         // this.addFormLogicSubscriptions();
+
+        // NotificationStackComponent.updateNotificationStack(this.topStack, NAMES.DUPLICATED_USER, true);
+    }
+
+    ngAfterViewInit() {
+        console.log(this.topStack.whoAmI());
     }
 
     ngAfterContentInit(): void {
@@ -84,10 +100,21 @@ export class ProfileEditorComponent implements OnInit, AfterContentInit, OnDestr
         // TODO
     }
 
-    // --------------------- Data Subscriptions & Functions
+    // --------------------- Data Subscriptions & Functions -------
 
     addDataSubscriptions(): void {
-        this
+        
+    }
+
+    // Notification Subscriptions & Functions -------
+    addNotificationSubscriptions(): void {
+        this.notificationSubscriptions.add(
+            this.notificationService.showDuplicatedUserNotification$.subscribe(
+                (displayNotification: boolean) => {
+                    
+                }
+            )
+        );
     }
 
     // --------------------- Other Functions -------

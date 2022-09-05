@@ -1,0 +1,12 @@
+<div>
+    <p>Notification Stack ...</p>
+    {{notificationsToDisplay.size}}
+    <div *ngFor="let notificationName of notificationsToDisplay">
+        <p>Notification Stack Inside tag ...</p>
+    </div>
+    <!-- <app-notification *ngFor="let notificationName of notificationsToDisplay" 
+        [notificationName]="notificationName"
+        (notificationButtonClicked) = "handleChildNotificationEvent($event)">
+        <p>Notification Stack Inside tag ...</p>
+    </app-notification> -->
+</div>

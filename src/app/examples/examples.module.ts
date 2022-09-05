@@ -18,6 +18,6 @@ import { SharedModule } from './shared/shared.module';
     providers: [
         // No need to place any providers due to the `providedIn` flag added to the services ...
     ],
-    bootstrap: [ ExamplesComponent ]
+    // bootstrap: [ ExamplesComponent ]
 })
 export class ExamplesModule { }
