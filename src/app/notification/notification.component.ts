@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { StringConstantMap } from '../../shared/constants/general-constants';
-import { CLICK_EVENTS, NAMES, TYPES } from '../../shared/constants/notification-constants';
+import { StringConstantMap } from '../examples/shared/constants/general-constants';
+import { CLICK_EVENTS, NAMES, TYPES } from '../examples/shared/constants/notification-constants';
 
 @Component({
     selector: 'app-notification',

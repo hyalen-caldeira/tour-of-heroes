@@ -7,14 +7,14 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 })
 export class NotificationStackComponent implements OnInit {
     notificationsToDisplay: Set<string>;
-    @Output() childNotificationEvent: EventEmitter<String> = new EventEmitter();
-
-    whoAmI() {
-        return 'I am a pup component!';
-      }
+    @Output() childNotificationEvent: EventEmitter<string> = new EventEmitter();
 
     constructor() {
         this.notificationsToDisplay = new Set()
+    }
+
+    whoAmI() {
+        return 'I am a Notification Stack!';
     }
 
     ngOnInit(): void {
