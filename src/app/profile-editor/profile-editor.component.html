@@ -1,4 +1,5 @@
-<app-notification-stack></app-notification-stack>
+<app-notification-stack #topStack (childNotificationEvent)="handleNotificationButtonClick($event)"></app-notification-stack>
+
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
     <div>
         <h2>User</h2>
@@ -42,8 +43,8 @@
     <button type="submit" [disabled]="!formGroup.valid">Submit</button>
 </form>
 
+<app-notification-stack #downStack (childNotificationEvent)="handleNotificationButtonClick($event)"></app-notification-stack>
+
 <p>Form Value: {{ formGroup.value | json }}</p>
-
 <p>Form Status: {{ formGroup.status }}</p>
-
 <button type="button" (click)="updateProfile()">Update Profile</button>

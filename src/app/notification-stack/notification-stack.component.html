@@ -1,0 +1,6 @@
+<div>
+    <app-notification *ngFor="let notificationName of notificationsToDisplay" 
+        [notificationName]="notificationName"
+        (notificationButtonClicked) = "handleChildNotificationEvent($event)">
+    </app-notification>
+</div>

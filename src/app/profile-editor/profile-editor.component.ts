@@ -2,9 +2,9 @@ import { AfterContentInit, Component, OnDestroy, OnInit, ViewChild } from '@angu
 import { FormGroup, FormControl } from '@angular/forms';
 import { FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { NotificationService } from '../../shared/service/notification.service';
+import { CLICK_EVENTS, NAMES } from '../examples/shared/constants/notification-constants';
+import { NotificationService } from '../examples/shared/service/notification.service';
 import { NotificationStackComponent } from '../notification-stack/notification-stack.component';
-import { CLICK_EVENTS, NAMES, TYPES } from '../../shared/constants/notification-constants';
 
 @Component({
     selector: 'app-profile-editor',
@@ -12,8 +12,8 @@ import { CLICK_EVENTS, NAMES, TYPES } from '../../shared/constants/notification-
     styleUrls: ['./profile-editor.component.css']
 })
 export class ProfileEditorComponent implements OnInit, AfterContentInit, OnDestroy {
-    @ViewChild('topStack') 
-    topStack!: NotificationStackComponent;
+    @ViewChild("topStack") topStack!: NotificationStackComponent;
+    @ViewChild("downStack") downStack!: NotificationStackComponent;
 
     // Subscriptions
     private dataSubscriptions: Subscription = new Subscription();
@@ -25,8 +25,8 @@ export class ProfileEditorComponent implements OnInit, AfterContentInit, OnDestr
     constructor(
         private formBuilder: FormBuilder,
         private notificationService: NotificationService) {
-
-        }
+        // Add initialization here
+    }
 
     ngOnInit(): void {
         // TODO
@@ -39,10 +39,6 @@ export class ProfileEditorComponent implements OnInit, AfterContentInit, OnDestr
         // this.addFormLogicSubscriptions();
 
         // NotificationStackComponent.updateNotificationStack(this.topStack, NAMES.DUPLICATED_USER, true);
-    }
-
-    ngAfterViewInit() {
-        console.log(this.topStack.whoAmI());
     }
 
     ngAfterContentInit(): void {
@@ -106,7 +102,8 @@ export class ProfileEditorComponent implements OnInit, AfterContentInit, OnDestr
         
     }
 
-    // Notification Subscriptions & Functions -------
+    // --------------------- Notification Subscriptions & Functions -------
+
     addNotificationSubscriptions(): void {
         this.notificationSubscriptions.add(
             this.notificationService.showDuplicatedUserNotification$.subscribe(
@@ -115,6 +112,17 @@ export class ProfileEditorComponent implements OnInit, AfterContentInit, OnDestr
                 }
             )
         );
+    }
+
+    handleNotificationButtonClick(eventName: string): void {
+        switch(eventName) {
+            case CLICK_EVENTS.CLICK_EVENT_ONE:
+                console.log("First click event ...");
+                break;
+            case CLICK_EVENTS.CLICK_EVENT_TWO:
+                console.log("Second click event ...");
+                break;
+        }
     }
 
     // --------------------- Other Functions -------
@@ -131,6 +139,12 @@ export class ProfileEditorComponent implements OnInit, AfterContentInit, OnDestr
                 street: '123 Drew Street'
             }
         });
+
+        NotificationStackComponent.updateNotificationStack(this.topStack, NAMES.DUPLICATED_USER, true);
+        console.log("TopStack - notificationsToDisplay ... " + this.topStack.notificationsToDisplay.size);
+
+        NotificationStackComponent.updateNotificationStack(this.downStack, NAMES.INVALID_ZIP_CODE, true);
+        console.log("Down Stack - notificationsToDisplay ... " + this.downStack.notificationsToDisplay.size);
     }
 
     get aliases() {

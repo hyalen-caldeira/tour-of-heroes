@@ -1,8 +1,10 @@
-<p>I'm here ...</p>
 <div>
     <ng-container [ngSwitch]="notificationName">
         <ng-container *ngSwitchCase="NOTIFICATION_NAMES['DUPLICATED_USER']">
-
+            <p>DUPLICATED_USER ...</p>
+        </ng-container>
+        <ng-container *ngSwitchCase="NOTIFICATION_NAMES['INVALID_ZIP_CODE']">
+            <p>INVALID_ZIP_CODE ...</p>
         </ng-container>
     </ng-container>
 </div>

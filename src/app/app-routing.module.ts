@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HeroListComponent } from './heroes/hero-list/hero-list.component';
-import { DashboardComponent } from './heroes/dashboard/dashboard.component';
-import { HeroDetailComponent } from './heroes/hero-detail/hero-detail.component';
-import { NameEditorComponent } from './forms/name-editor/name-editor.component';
-import { ProfileEditorComponent } from './forms/profile-editor/profile-editor.component';
+import { HeroListComponent } from './hero-list/hero-list.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { HeroDetailComponent } from './hero-detail/hero-detail.component';
+import { NameEditorComponent } from './name-editor/name-editor.component';
+import { ProfileEditorComponent } from './profile-editor/profile-editor.component';
 
 const routes: Routes = [
     { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -19,4 +19,4 @@ const routes: Routes = [
     imports: [RouterModule.forRoot(routes)],
     exports: [RouterModule]
 })
-export class ExamplesRoutingModule { }
+export class AppRoutingModule { }
