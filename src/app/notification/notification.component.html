@@ -1,10 +1,12 @@
-<div>
+<div ng-reflect-type="warning">
     <ng-container [ngSwitch]="notificationName">
         <ng-container *ngSwitchCase="NOTIFICATION_NAMES['DUPLICATED_USER']">
             <p>DUPLICATED_USER ...</p>
+            <button type="button" (click)="onButtonClick(NOTIFICATION_CLICK_EVENTS['CLICK_EVENT_ONE'])">Emit Event</button>
         </ng-container>
         <ng-container *ngSwitchCase="NOTIFICATION_NAMES['INVALID_ZIP_CODE']">
             <p>INVALID_ZIP_CODE ...</p>
+            <button type="button" (click)="onButtonClick(NOTIFICATION_CLICK_EVENTS['CLICK_EVENT_TWO'])">Emit Event</button>
         </ng-container>
     </ng-container>
 </div>

@@ -34,16 +34,16 @@ export class ProfileEditorComponent implements OnInit, AfterContentInit, OnDestr
         //     this.repopulateFormGroup();
         // else
             this.createFormGroup();
-        // this.addFormControlSubscriptions();
-        // this.addDataSubscriptions();
-        // this.addFormLogicSubscriptions();
+
+        this.addFormControlSubscriptions();
+        this.addDataSubscriptions();
+        this.addFormLogicSubscriptions();
 
         // NotificationStackComponent.updateNotificationStack(this.topStack, NAMES.DUPLICATED_USER, true);
     }
 
     ngAfterContentInit(): void {
-        // TODO
-        // this.addNotificationSubscriptions();
+        this.addNotificationSubscriptions();
     }
 
     ngOnDestroy(): void {
@@ -99,27 +99,54 @@ export class ProfileEditorComponent implements OnInit, AfterContentInit, OnDestr
     // --------------------- Data Subscriptions & Functions -------
 
     addDataSubscriptions(): void {
-        
+        // TODO
+    }
+
+    // --------------------- Form Control Subscriptions & Functions -------
+
+    addFormControlSubscriptions(): void {
+        this.formControlSubscriptions.add(
+            this.formGroup.get('firstName')?.valueChanges.subscribe(value => {
+                this.handleFirstNameChange(value);
+            })
+        );
+    }
+
+    handleFirstNameChange(value: string): void {
+        if (value == 'Gabriela')
+            this.notificationService.pushShowDuplicatedUserNotification(true);
+    }
+
+    // --------------------- Form Logic Subscriptions & Functions -------
+
+    addFormLogicSubscriptions(): void {
+
     }
 
     // --------------------- Notification Subscriptions & Functions -------
 
     addNotificationSubscriptions(): void {
         this.notificationSubscriptions.add(
-            this.notificationService.showDuplicatedUserNotification$.subscribe(
-                (displayNotification: boolean) => {
-                    
-                }
-            )
+            this.notificationService.showDuplicatedUserNotification$.subscribe((displayNotification: boolean) => {
+                NotificationStackComponent.updateNotificationStack(this.topStack, NAMES.DUPLICATED_USER, displayNotification);
+            })
+        );
+        
+        this.notificationSubscriptions.add(
+            this.notificationService.showDuplicatedUserNotification$.subscribe((displayNotification: boolean) => {
+                NotificationStackComponent.updateNotificationStack(this.downStack, NAMES.INVALID_ZIP_CODE, displayNotification);
+            })
         );
     }
 
     handleNotificationButtonClick(eventName: string): void {
         switch(eventName) {
             case CLICK_EVENTS.CLICK_EVENT_ONE:
+                this.notificationService.pushShowDuplicatedUserNotification(false);
                 console.log("First click event ...");
                 break;
             case CLICK_EVENTS.CLICK_EVENT_TWO:
+                this.notificationService.pushShowInvalidZipCodeNotification(false);
                 console.log("Second click event ...");
                 break;
         }
@@ -139,12 +166,6 @@ export class ProfileEditorComponent implements OnInit, AfterContentInit, OnDestr
                 street: '123 Drew Street'
             }
         });
-
-        NotificationStackComponent.updateNotificationStack(this.topStack, NAMES.DUPLICATED_USER, true);
-        console.log("TopStack - notificationsToDisplay ... " + this.topStack.notificationsToDisplay.size);
-
-        NotificationStackComponent.updateNotificationStack(this.downStack, NAMES.INVALID_ZIP_CODE, true);
-        console.log("Down Stack - notificationsToDisplay ... " + this.downStack.notificationsToDisplay.size);
     }
 
     get aliases() {
