@@ -40,8 +40,6 @@ export class NotificationStackComponent implements OnInit {
         if (stackToUpdate) {
             if (displayNotification) {
                 stackToUpdate.addNotification(notificationName);
-                stackToUpdate.addNotification("notificationName");
-                stackToUpdate.addNotification("Tres");
             }
             else
                 stackToUpdate.removeNotification(notificationName);

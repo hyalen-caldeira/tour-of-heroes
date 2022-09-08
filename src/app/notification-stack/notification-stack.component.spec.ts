@@ -1,10 +1,10 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { generateMockNotificationStackComponent, resetMockNotificationStackComponent } from '../../shared/test-util/components-mock';
+import { generateMockNotificationStackComponent, resetMockNotificationStackComponent } from '../examples/shared/test-util/components-mock.spec';
 
 import { NotificationStackComponent } from './notification-stack.component';
 
-describe('NotificationStackComponent', () => {
+describe('#NotificationStackComponent', () => {
     let component: NotificationStackComponent;
     let fixture: ComponentFixture<NotificationStackComponent>;
 

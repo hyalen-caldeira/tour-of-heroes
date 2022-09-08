@@ -110,11 +110,22 @@ export class ProfileEditorComponent implements OnInit, AfterContentInit, OnDestr
                 this.handleFirstNameChange(value);
             })
         );
+
+        this.formControlSubscriptions.add(
+            this.formGroup.get('address')?.get('zip')?.valueChanges.subscribe(value => {
+                this.handleZipCodeChange(value);
+            })
+        );
     }
 
     handleFirstNameChange(value: string): void {
         if (value == 'Gabriela')
             this.notificationService.pushShowDuplicatedUserNotification(true);
+    }
+
+    handleZipCodeChange(value: string): void {
+        if (value.length == 9)
+            this.notificationService.pushShowInvalidZipCodeNotification(true);
     }
 
     // --------------------- Form Logic Subscriptions & Functions -------
@@ -133,7 +144,7 @@ export class ProfileEditorComponent implements OnInit, AfterContentInit, OnDestr
         );
         
         this.notificationSubscriptions.add(
-            this.notificationService.showDuplicatedUserNotification$.subscribe((displayNotification: boolean) => {
+            this.notificationService.showInvalidZipCodeNotification$.subscribe((displayNotification: boolean) => {
                 NotificationStackComponent.updateNotificationStack(this.downStack, NAMES.INVALID_ZIP_CODE, displayNotification);
             })
         );
