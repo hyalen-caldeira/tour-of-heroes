@@ -1,5 +1,5 @@
-import { AfterContentInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { AfterContentInit, AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { CLICK_EVENTS, NAMES } from '../examples/shared/constants/notification-constants';
@@ -11,7 +11,7 @@ import { NotificationStackComponent } from '../notification-stack/notification-s
     templateUrl: './profile-editor.component.html',
     styleUrls: ['./profile-editor.component.css']
 })
-export class ProfileEditorComponent implements OnInit, AfterContentInit, OnDestroy {
+export class ProfileEditorComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild("topStack") topStack!: NotificationStackComponent;
     @ViewChild("downStack") downStack!: NotificationStackComponent;
 
@@ -20,16 +20,18 @@ export class ProfileEditorComponent implements OnInit, AfterContentInit, OnDestr
     private formControlSubscriptions: Subscription = new Subscription();
     private formLogicSubscriptions: Subscription = new Subscription();
     private notificationSubscriptions: Subscription = new Subscription();
-    public formGroup!: FormGroup;
+    
+    // TODO: Hyalen, what is the difference between UntypedFormGroup and FormGroup
+    public formGroup!: UntypedFormGroup;
     
     constructor(
-        private formBuilder: FormBuilder,
+        private _formBuilder: FormBuilder,
         private notificationService: NotificationService) {
         // Add initialization here
     }
 
     ngOnInit(): void {
-        // TODO
+        // TODO: Hyalen
         // if (this.uiStateService.repopulateForm)
         //     this.repopulateFormGroup();
         // else
@@ -42,7 +44,7 @@ export class ProfileEditorComponent implements OnInit, AfterContentInit, OnDestr
         // NotificationStackComponent.updateNotificationStack(this.topStack, NAMES.DUPLICATED_USER, true);
     }
 
-    ngAfterContentInit(): void {
+    ngAfterViewInit(): void {
         this.addNotificationSubscriptions();
     }
 
@@ -75,17 +77,18 @@ export class ProfileEditorComponent implements OnInit, AfterContentInit, OnDestr
         // The same as above but using FormBuilder
         // You can define the control with just the initial value, but if your controls need sync or async validation, 
         // add sync and async validators as the second and third items in the array.
-        this.formGroup = this.formBuilder.group({
-            firstName: ['', Validators.required],
-            lastName: [''],
-            address: this.formBuilder.group({
-                street: [''],
-                city: [''],
-                state: [''],
-                zip: ['']
+        this.formGroup = this._formBuilder.group({
+            firstNameFormControl: ['', Validators.required],
+            // TODO: Hyalen, study why to use UntypedFormControl
+            lastNameFormControl: new UntypedFormControl(''),
+            addressFormControl: this._formBuilder.group({
+                streetFormControl: [''],
+                cityFormControl: [''],
+                stateFormControl: [''],
+                zipFormControl: ['']
             }),
-            aliases: this.formBuilder.array([
-                this.formBuilder.control('')
+            aliases: this._formBuilder.array([
+                this._formBuilder.control('')
             ])
         });
     }
@@ -106,19 +109,24 @@ export class ProfileEditorComponent implements OnInit, AfterContentInit, OnDestr
 
     addFormControlSubscriptions(): void {
         this.formControlSubscriptions.add(
-            this.formGroup.get('firstName')?.valueChanges.subscribe(value => {
+            this.formGroup.get('firstNameFormControl')?.valueChanges.subscribe(value => {
                 this.handleFirstNameChange(value);
             })
         );
 
         this.formControlSubscriptions.add(
-            this.formGroup.get('address')?.get('zip')?.valueChanges.subscribe(value => {
+            this.formGroup.get('addressFormControl')?.get('zip')?.valueChanges.subscribe(value => {
                 this.handleZipCodeChange(value);
             })
         );
+
+        // TODO: Hyalen, add the remaining formControls
     }
 
     handleFirstNameChange(value: string): void {
+        //  this.uiStateService.updateFirstName(value);
+        
+        // Thed code below is for test purposed 
         if (value == 'Gabriela')
             this.notificationService.pushShowDuplicatedUserNotification(true);
     }
@@ -186,6 +194,6 @@ export class ProfileEditorComponent implements OnInit, AfterContentInit, OnDestr
     }
 
     addAlias() {
-        this.aliases.push(this.formBuilder.control(''));
+        this.aliases.push(this._formBuilder.control(''));
     }
 }
