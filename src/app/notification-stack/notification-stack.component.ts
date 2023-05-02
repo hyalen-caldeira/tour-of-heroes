@@ -13,10 +13,6 @@ export class NotificationStackComponent implements OnInit {
         this.notificationsToDisplay = new Set()
     }
 
-    whoAmI() {
-        return 'I am a Notification Stack!';
-    }
-
     ngOnInit(): void {
     }
 
@@ -38,9 +34,8 @@ export class NotificationStackComponent implements OnInit {
         displayNotification: boolean
     ): void {
         if (stackToUpdate) {
-            if (displayNotification) {
+            if (displayNotification)
                 stackToUpdate.addNotification(notificationName);
-            }
             else
                 stackToUpdate.removeNotification(notificationName);
         }

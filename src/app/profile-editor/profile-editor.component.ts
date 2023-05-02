@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { CLICK_EVENTS, NAMES } from '../examples/shared/constants/notification-constants';
 import { NotificationService } from '../examples/shared/service/notification.service';
 import { NotificationStackComponent } from '../notification-stack/notification-stack.component';
+import { UiStateService } from '../service/ui-state.service';
 
 @Component({
     selector: 'app-profile-editor',
@@ -24,9 +25,10 @@ export class ProfileEditorComponent implements OnInit, AfterViewInit, OnDestroy 
     // TODO: Hyalen, what is the difference between UntypedFormGroup and FormGroup
     public formGroup!: UntypedFormGroup;
     
-    constructor(
+    constructor (
         private _formBuilder: FormBuilder,
-        private notificationService: NotificationService) {
+        private notificationService: NotificationService,
+        private uiStateService: UiStateService) {
         // Add initialization here
     }
 
@@ -96,7 +98,23 @@ export class ProfileEditorComponent implements OnInit, AfterViewInit, OnDestroy 
     // --------------------- Form Repopulation Functions -------
 
     repopulateFormGroup(): void {
-        // TODO
+        // TODO: Hyalen
+        const userSelection = this.uiStateService.getUserSelections();
+
+        this.formGroup = this._formBuilder.group({
+            firstNameFormControl: [userSelection.firstName, Validators.required],
+            // TODO: Hyalen, study why to use UntypedFormControl. Refactore all method to use it
+            lastNameFormControl: new UntypedFormControl(''),
+            addressFormControl: this._formBuilder.group({
+                streetFormControl: [''],
+                cityFormControl: [''],
+                stateFormControl: [''],
+                zipFormControl: [userSelection.zipCode]
+            }),
+            aliases: this._formBuilder.array([
+                this._formBuilder.control('')
+            ])
+        });
     }
 
     // --------------------- Data Subscriptions & Functions -------
@@ -115,7 +133,7 @@ export class ProfileEditorComponent implements OnInit, AfterViewInit, OnDestroy 
         );
 
         this.formControlSubscriptions.add(
-            this.formGroup.get('addressFormControl')?.get('zip')?.valueChanges.subscribe(value => {
+            this.formGroup.get('addressFormControl')?.get('zipFormControl')?.valueChanges.subscribe(value => {
                 this.handleZipCodeChange(value);
             })
         );
@@ -124,14 +142,17 @@ export class ProfileEditorComponent implements OnInit, AfterViewInit, OnDestroy 
     }
 
     handleFirstNameChange(value: string): void {
-        //  this.uiStateService.updateFirstName(value);
+        this.uiStateService.updateFirstName(value);
         
-        // Thed code below is for test purposed 
+        // The code below is for test purposed and must be removed 
         if (value == 'Gabriela')
             this.notificationService.pushShowDuplicatedUserNotification(true);
     }
 
     handleZipCodeChange(value: string): void {
+        this.uiStateService.updateZipCode(value);
+
+        // The code below is for test purposed and must be removed
         if (value.length == 9)
             this.notificationService.pushShowInvalidZipCodeNotification(true);
     }
