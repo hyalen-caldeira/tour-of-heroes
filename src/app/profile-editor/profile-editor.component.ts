@@ -1,11 +1,13 @@
 import { AfterContentInit, AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { FormBuilder, Validators, FormArray } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subscription, combineLatest, distinctUntilChanged } from 'rxjs';
 import { CLICK_EVENTS, NAMES } from '../examples/shared/constants/notification-constants';
 import { NotificationService } from '../examples/shared/service/notification.service';
 import { NotificationStackComponent } from '../notification-stack/notification-stack.component';
 import { UiStateService } from '../service/ui-state.service';
+import { StateService } from '../service/state.service';
+import { LogicUtil } from '../util/logic-util';
 
 @Component({
     selector: 'app-profile-editor',
@@ -28,15 +30,15 @@ export class ProfileEditorComponent implements OnInit, AfterViewInit, OnDestroy 
     constructor (
         private _formBuilder: FormBuilder,
         private notificationService: NotificationService,
-        private uiStateService: UiStateService) {
-        // Add initialization here
+        private uiStateService: UiStateService,
+        private stateService: StateService) {
+        // Add others initialization here ...
     }
 
     ngOnInit(): void {
-        // TODO: Hyalen
-        // if (this.uiStateService.repopulateForm)
-        //     this.repopulateFormGroup();
-        // else
+        if (this.uiStateService.repopulateForm)
+            this.repopulateFormGroup();
+        else
             this.createFormGroup();
 
         this.addFormControlSubscriptions();
@@ -121,6 +123,7 @@ export class ProfileEditorComponent implements OnInit, AfterViewInit, OnDestroy 
 
     addDataSubscriptions(): void {
         // TODO
+        this.dataSubscriptions.add()
     }
 
     // --------------------- Form Control Subscriptions & Functions -------
@@ -160,7 +163,32 @@ export class ProfileEditorComponent implements OnInit, AfterViewInit, OnDestroy 
     // --------------------- Form Logic Subscriptions & Functions -------
 
     addFormLogicSubscriptions(): void {
+        this.formLogicSubscriptions.add(
+            combineLatest([
+                this.stateService.isFirstNameEqualHyalen$,
+                this.stateService.isZipCodeLengthGreaterThan9$
+            ])
+            .pipe(distinctUntilChanged(LogicUtil.deepEqual))
+            .subscribe(([isFirstNameEqualHyalen, isZipCodeLengthGreaterThan9]) => {
+                this.handleSomeBusinessLogicOne(isFirstNameEqualHyalen, isZipCodeLengthGreaterThan9);
+            })
+        );
 
+        this.formLogicSubscriptions.add(
+            this.stateService.isSomethingElse$.subscribe((value) => {
+                this.handleSomeBusinessLogicTwo(value);
+            })
+        );
+
+        // Others subscriptions
+    }
+
+    handleSomeBusinessLogicOne(isFirstNameEqualHyalen: boolean, isZipCodeLengthGreaterThan9: boolean) {
+        // Implement some logic here
+    }
+
+    handleSomeBusinessLogicTwo(value: boolean) {
+        // Implement some logic here
     }
 
     // --------------------- Notification Subscriptions & Functions -------
@@ -177,6 +205,8 @@ export class ProfileEditorComponent implements OnInit, AfterViewInit, OnDestroy 
                 NotificationStackComponent.updateNotificationStack(this.downStack, NAMES.INVALID_ZIP_CODE, displayNotification);
             })
         );
+
+        // Add others subscriptions here ...
     }
 
     handleNotificationButtonClick(eventName: string): void {

@@ -31,3 +31,5 @@ This app use an in-memory data service to simulate your are hitting APIs
 TODO: Hyalen
 DataUtil.convertStringToMoment()
 DataUtil.clone()
+Rename Hero to HeroModel
+Add other columns (zipCode, lastName, etc) to Hero 

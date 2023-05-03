@@ -12,8 +12,10 @@ export class UiStateService {
   private readonly _zipCode: BehaviorSubject<string>;
 
   // Anyone who needs to be informed about changing have to subscribe to these observables
-  public readonly firstName$: Observable<String>;
-  public readonly zipCode$: Observable<String>;
+  public readonly firstName$: Observable<string>;
+  public readonly zipCode$: Observable<string>;
+
+  // Set this variable to true in case, for some reason, you need to repopulate the form
   public repopulateForm: boolean = false;
 
   constructor(private stateService: StateService) {
