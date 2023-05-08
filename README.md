@@ -33,3 +33,5 @@ DataUtil.convertStringToMoment()
 DataUtil.clone()
 Rename Hero to HeroModel
 Add other columns (zipCode, lastName, etc) to Hero 
+
+micro-frontend is an example in how to structure folders
