@@ -16,6 +16,7 @@ import { NotificationStackComponent } from './notification-stack/notification-st
 import { ProfileEditorComponent } from './profile-editor/profile-editor.component';
 import { NotificationComponent } from './notification/notification.component';
 import { SharedModule } from './examples/shared/shared.module';
+import { MicroFrontendComponent } from './micro-frontend/micro-frontend.component';
 
 @NgModule({
     declarations: [
@@ -29,6 +30,7 @@ import { SharedModule } from './examples/shared/shared.module';
         , ProfileEditorComponent
         , NotificationStackComponent
         , NotificationComponent
+        , MicroFrontendComponent
     ],
     imports: [
         BrowserModule,
